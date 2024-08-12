@@ -130,6 +130,56 @@ router.put('/tasks/:id', authMiddleware, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+router.put('/tasks/pay/:id', authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    const { name, address, amount, amountPaid } = req.body;
+
+    const task = await Task.findByIdAndUpdate(req.params.id, {
+      paid: true,
+      paymentDetails: {
+        name,
+        address,
+        amount,
+        amountPaid,
+        paymentDate: new Date()
+      }
+    }, { new: true });
+
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+router.get('/tasks/pay/:id',authMiddleware, async (req, res) => {
+  const { taskId } = req.params;
+
+  try {
+    const task = await Task.findById(req.params.id);
+
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    const paymentStatus = {
+      paid: task.paid,
+      paymentDetails: task.paymentDetails
+    };
+
+    res.status(200).json(paymentStatus);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+})
+
+
 
 router.put('/tasks/reassign/:id', authMiddleware, adminMiddleware, async (req, res) => {
   const { executorUsername } = req.body;
