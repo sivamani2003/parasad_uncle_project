@@ -328,7 +328,6 @@ function TaskManager() {
         });
 
         const paymentStatuses = await Promise.all(paymentStatusPromises);
-
         // Update the taskPaymentStatus state
         const taskPaymentStatusMap = paymentStatuses.reduce((acc, curr) => {
           acc[curr.taskId] = curr.status;
@@ -341,7 +340,7 @@ function TaskManager() {
         console.error('Error fetching tasks:', error.response?.data || error.message);
       }
     };
-
+    
     const checkRole = () => {
       const token = localStorage.getItem('token');
       if (token) {
@@ -533,16 +532,23 @@ function TaskManager() {
                 </button>
               )}
               {isAdmin && (
-                <button
+                <>{taskPaymentStatus[task._id]?.paid && (
+                  <button
+                      // onClick={handleDownloadInvoice}
+                      className='bg-green-500 px-2 py-2 rounded'
+                  >
+                      Invoice
+                  </button>
+              )}<button
                   onClick={async () => {
                     await fetchTaskPaymentStatus(task._id);
                     setSelectedTask(task);
                     setShowPaymentModal(true);
-                  }}
+                  } }
                   className="bg-blue-500 text-white p-2 rounded ml-2"
                 >
                   {taskPaymentStatus[task._id]?.paid ? 'Paid' : 'Mark as Paid'}
-                </button>
+                </button></>
               )}
             </div>
           </div>
