@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
+    <nav className="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto rounded-xl">
       <div className="md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap">
         {/* Logo */}
         <div className="text-indigo-500 md:order-1">
@@ -15,9 +15,6 @@ const Navbar = () => {
           <ul className="flex font-semibold justify-between">
             <li className="md:px-4 md:py-2 text-indigo-500"><a href="#">Dashboard</a></li>
             <li className="md:px-4 md:py-2 hover:text-indigo-400"><a href="#">Search</a></li>
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><a href="#">Explore</a></li>
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><a href="#">About</a></li>
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><a href="#">Contact</a></li>
           </ul>
         </div>
         <div className="order-2 md:order-3">
