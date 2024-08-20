@@ -6,7 +6,6 @@ import Login from './components/Login';
 import TaskManager from './components/TaskManager';
 import './index.css'
 import Navbar from './components/Navbar.jsx';
-import InvoiceGenrator from './components/InvoiceGenerator.jsx'
 function App() {
   return (
     <Router>
@@ -16,7 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
           <Route path="/" element={<Login />} />
           <Route path="/tasks" element={<TaskManager />} />
-          <Route path="/pdf" element={<InvoiceGenrator/>}/>
+          
         </Routes>
       </div>
     </Router>
