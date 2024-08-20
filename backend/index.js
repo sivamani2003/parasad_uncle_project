@@ -14,5 +14,5 @@ app.use(cors());
 app.use('/api', authRoutes);
 
 app.listen(5007, () => {
-  console.log('Server running on port 5000');
+  console.log('Server running on port 5007');
 });
