@@ -1,10 +1,7 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  resolve: {
-    alias: {
-      'pdfmake': 'pdfmake/build/pdfmake',
-      'pdfmake/build/vfs_fonts': 'pdfmake/build/vfs_fonts'
-    }
-  }
-});
+  plugins: [react()],
+})
