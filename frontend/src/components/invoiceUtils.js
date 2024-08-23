@@ -1,12 +1,14 @@
+// invoiceUtils.js
+
 import numberToWords from 'number-to-words';
 import axios from 'axios';
 import pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-ppdfMake.vfs = pdfFonts;
+// Set the fonts
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-
-
+console.log(pdfMake)
 
 export const generateInvoicePDF = async (taskId, token) => {
     try {
