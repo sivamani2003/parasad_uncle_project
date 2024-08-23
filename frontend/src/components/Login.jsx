@@ -10,7 +10,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5007/api/login', {
+      const response = await axios.post('https://parasad-uncle-project.onrender.com/api/login', {
         username,
         password,
       });

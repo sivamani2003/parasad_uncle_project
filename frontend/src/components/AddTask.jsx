@@ -19,7 +19,7 @@ function AddTask({ fetchTasks }) {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5007/api/tasks', formData, {
+      await axios.post('https://parasad-uncle-project.onrender.com/api/tasks', formData, {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
       });
       setTask('');

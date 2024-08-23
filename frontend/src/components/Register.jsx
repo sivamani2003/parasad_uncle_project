@@ -11,7 +11,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5007/api/register', {
+      const response = await axios.post('https://parasad-uncle-project.onrender.com/api/register', {
         username,
         password,
         role,

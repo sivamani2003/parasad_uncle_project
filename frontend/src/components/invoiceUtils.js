@@ -8,7 +8,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const generateInvoicePDF = async (taskId, token) => {
     try {
-      const response = await axios.get(`http://localhost:5007/api/tasks/pay/${taskId}`, {
+      const response = await axios.get(`https://parasad-uncle-project.onrender.com/api/tasks/pay/${taskId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

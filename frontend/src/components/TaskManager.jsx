@@ -25,14 +25,14 @@ function TaskManager() {
     const fetchTasks = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5007/api/tasks', {
+        const response = await axios.get('https://parasad-uncle-project.onrender.com/api/tasks', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const tasks = response.data;
 
         // Fetch payment status for each task
         const paymentStatusPromises = tasks.map(async (task) => {
-          const paymentStatusResponse = await axios.get(`http://localhost:5007/api/tasks/pay/${task._id}`, {
+          const paymentStatusResponse = await axios.get(`https://parasad-uncle-project.onrender.com/api/tasks/pay/${task._id}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           return { taskId: task._id, status: paymentStatusResponse.data };
@@ -76,14 +76,14 @@ function TaskManager() {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5007/api/tasks', formData, {
+      await axios.post('https://parasad-uncle-project.onrender.com/api/tasks', formData, {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
       });
       setTask('');
       setDescription('');
       setExecutorUsername('');
       setFile(null);
-      const response = await axios.get('http://localhost:5007/api/tasks', {
+      const response = await axios.get('https://parasad-uncle-project.onrender.com/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -95,10 +95,10 @@ function TaskManager() {
   const handleUpdateTask = async (taskId, complete) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5007/api/tasks/${taskId}`, { complete }, {
+      await axios.put(`https://parasad-uncle-project.onrender.com/api/tasks/${taskId}`, { complete }, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const response = await axios.get('http://localhost:5007/api/tasks', {
+      const response = await axios.get('https://parasad-uncle-project.onrender.com/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -110,10 +110,10 @@ function TaskManager() {
   const handleReassignTask = async (taskId, newExecutorUsername) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5007/api/tasks/reassign/${taskId}`, { executorUsername: newExecutorUsername }, {
+      await axios.put(`https://parasad-uncle-project.onrender.com/api/tasks/reassign/${taskId}`, { executorUsername: newExecutorUsername }, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const response = await axios.get('http://localhost:5007/api/tasks', {
+      const response = await axios.get('https://parasad-uncle-project.onrender.com/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -125,12 +125,12 @@ function TaskManager() {
   const handlePayTask = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5007/api/tasks/pay/${selectedTask._id}`, paymentDetails, {
+      await axios.put(`https://parasad-uncle-project.onrender.com/api/tasks/pay/${selectedTask._id}`, paymentDetails, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setShowPaymentModal(false);
       await fetchTaskPaymentStatus(selectedTask._id); // Refresh payment status
-      const response = await axios.get('http://localhost:5007/api/tasks', {
+      const response = await axios.get('https://parasad-uncle-project.onrender.com/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -142,7 +142,7 @@ function TaskManager() {
   const fetchTaskPaymentStatus = async (taskId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5007/api/tasks/pay/${taskId}`, {
+      const response = await axios.get(`https://parasad-uncle-project.onrender.com/api/tasks/pay/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTaskPaymentStatus((prev) => ({ ...prev, [taskId]: response.data }));
