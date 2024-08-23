@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-100 p-6">
-        {/* <Navbar/> */}
+        <Navbar/>
         <Routes>
         <Route path="/register" element={<Register />} />
           <Route path="/" element={<Login />} />

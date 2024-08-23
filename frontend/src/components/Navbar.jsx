@@ -10,9 +10,8 @@ const Navbar = () => {
     const token = localStorage.getItem('token');   
 
     // Check for valid token (replace with your token validation logic)
-    if (token) {
+    if (token ) {
       setIsLoggedIn(true);
-      
     }
   }, []);
 
