@@ -23,6 +23,10 @@ function Register() {
     }
   };
 
+  const handleLogin = () => {
+    navigate('/'); // Navigate to the login page
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -88,9 +92,12 @@ function Register() {
                     Role
                   </label>
                 </div>
-                <div className="relative">
-                  <button type="submit" className="bg-cyan-500 text-white rounded-md px-2 py-1">
+                <div className="relative flex justify-between">
+                  <button type="submit" className="bg-cyan-500 text-white rounded-md px-4 py-2">
                     Register
+                  </button>
+                  <button type="button" onClick={handleLogin} className="bg-sky-500 text-white rounded-md px-4 py-2">
+                    Login
                   </button>
                 </div>
               </form>
