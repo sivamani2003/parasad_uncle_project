@@ -19,6 +19,7 @@ function TaskManager() {
     amount: '',
     amountPaid: '',
   });
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -156,6 +157,24 @@ function TaskManager() {
   };
 
   const filteredTasks = (status) => {
+    if (searchQuery) {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      const filtered = tasks.filter((task) => {
+        const taskName = task.task ? task.task.toLowerCase() : '';
+        const taskDescription = task.description ? task.description.toLowerCase() : '';
+        const executorUsername = task.executor && task.executor.username ? task.executor.username.toLowerCase() : '';
+  
+        return (
+          taskName.includes(lowercasedQuery) ||
+          taskDescription.includes(lowercasedQuery) ||
+          executorUsername.includes(lowercasedQuery)
+        );
+      });
+
+      if (status === 'all') return filtered;
+      const isComplete = status === 'completed';
+      return filtered.filter((task) => task.complete === isComplete);
+    }
     if (status === 'all') return tasks;
     const isComplete = status === 'completed';
     return tasks.filter((task) => task.complete === isComplete);
@@ -213,6 +232,15 @@ function TaskManager() {
         {isAdmin && (
           <button className={`p-2 ${activeTab === 'all' ? 'bg-gray-300' : ''}`} onClick={() => setActiveTab('all')}>All Tasks</button>
         )}
+      </div>
+      <div className="mb-4">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search tasks..."
+          className="border p-2 w-full"
+        />
       </div>
 
       <div>
