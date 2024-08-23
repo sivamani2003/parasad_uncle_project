@@ -2,8 +2,6 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import numberToWords from 'number-to-words';
 import axios from 'axios';
-
-import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 // Set the virtual file system for pdfMake
