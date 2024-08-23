@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { generateInvoicePDF } from './invoiceUtils'; // Import the function
+import { generateInvoicePDF } from './invoiceUtils';
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
