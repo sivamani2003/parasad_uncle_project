@@ -16,7 +16,6 @@ function Login() {
       });
       localStorage.setItem('token', response.data.token);
       navigate('/tasks');
-      window.location.reload();
     } catch (error) {
       console.error(error.response.data);
     }
