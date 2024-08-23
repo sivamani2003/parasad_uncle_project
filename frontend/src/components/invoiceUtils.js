@@ -1,5 +1,3 @@
-// invoiceUtils.js
-
 import numberToWords from 'number-to-words';
 import axios from 'axios';
 import pdfMake from 'pdfmake/build/pdfmake';
