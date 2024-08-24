@@ -182,80 +182,102 @@
 //         console.error('Error generating invoice:', error);
 //     }
 // };
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import numberToWords from 'number-to-words';
 import axios from 'axios';
 
 export const generateInvoicePDF = async (taskId, token) => {
-  try {
-    // Fetch invoice data from your API
-    const response = await axios.get(`https://parasad-uncle-project.onrender.com/api/tasks/pay/${taskId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    const task = response.data;
+    try {
+        // Fetch invoice data from your API
+        const response = await axios.get(`https://parasad-uncle-project.onrender.com/api/tasks/pay/${taskId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const task = response.data;
 
-    // Extract relevant data from the task
-    const { name, address, amount } = task.paymentDetails;
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString();
-    const amountInWords = numberToWords.toWords(amount);
+        // Extract relevant data from the task
+        const { name, address, amount } = task.paymentDetails;
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString();
+        const amountInWords = numberToWords.toWords(amount);
 
-    // Create a new jsPDF instance
-    const doc = new jsPDF();
+        // Create a new jsPDF instance
+        const doc = new jsPDF();
 
-    // Add header
-    doc.setFontSize(10);
-    doc.text('Your Company Name\nYour Address\nYour City, State, ZIP\nYour Country\nYour Email', 10, 10);
-    doc.setFontSize(18);
-    doc.text('TAX INVOICE', 180, 10, { align: 'right' });
+        // Header section
+        doc.setFontSize(10);
+        doc.text('Your Company Name\nYour Address\nYour City, State, ZIP\nYour Country\nYour Email', 20, 20);
+        doc.setFontSize(18);
+        doc.text('TAX INVOICE', 160, 20, { align: 'right' });
 
-    // Add invoice details
-    doc.setFontSize(12);
-    doc.text(`Invoice #: INV-000181\nInvoice Date: ${formattedDate}\nAdditional Line: Your text here\nTerms: Due on Receipt\nDue Date: ${formattedDate}`, 10, 30);
+        // Invoice details
+        doc.setFontSize(12);
+        doc.text('Invoice Date: ' + formattedDate, 20, 40);
+        doc.text('Additional Line: Your text here', 20, 50);
+        doc.text('Terms: Due on Receipt', 20, 60);
+        doc.text('Due Date: ' + formattedDate, 20, 70);
 
-    // Add billing information
-    doc.setFontSize(12);
-    doc.text('Bill To', 10, 60);
-    doc.text(`${name}\n${address}`, 10, 70);
+        // Billing information
+        doc.setFontSize(12);
+        doc.text('Bill To', 20, 90);
+        doc.text(`${name}\n${address}`, 20, 100);
 
-    // Add table
-    doc.autoTable({
-      startY: 90,
-      head: [['#', 'Item & Description', 'Qty', 'Rate', 'Amount']],
-      body: [
-        ['1', 'Sample Item Description', '1.00', `${amount}.00`, `${amount}.00`]
-      ],
-      theme: 'grid'
-    });
+        // Table of items
+        doc.autoTable({
+            startY: 120,
+            head: [['#', 'Item & Description', 'Qty', 'Rate', 'Amount']],
+            body: [
+                ['1', 'Sample Item Description', '1.00', `${amount}.00`, `${amount}.00`]
+            ],
+            theme: 'grid',
+            styles: {
+                fontSize: 12,
+                cellPadding: 2,
+                valign: 'middle'
+            }
+        });
 
-    // Add total in words and other details
-    doc.setFontSize(12);
-    doc.text(`Total In Words: ${amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)} rupees only`, 10, doc.autoTable.previous.finalY + 20);
-    doc.text('Notes: GST : NOT APPLICABLE\nThanks for your business.', 10, doc.autoTable.previous.finalY + 30);
-    doc.text('Terms & Conditions: Payment to be made by Cheque, drawn in the favor of " PRASAD KALAVA "\nPayable at Hyderabad or Credit to ICICI, GACHIBOWLI, Hyderabad.\nA/C no- 056701504611& IFSC Code- ICIC0000567', 10, doc.autoTable.previous.finalY + 40);
+        // Total, notes, and signature
+        doc.setFontSize(12);
+        doc.text(`Total In Words: ${amountInWords.charAt(0).toUpperCase() + amountInWords.slice(1)} rupees only`, 20, doc.lastAutoTable.finalY + 10);
+        doc.text('Notes\nGST: NOT APPLICABLE\nThanks for your business.', 20, doc.lastAutoTable.finalY + 20);
+        doc.text('Terms & Conditions\nPayment to be made by Cheque, drawn in favor of " PRASAD KALAVA "\nPayable at Hyderabad or Credit to ICICI, GACHIBOWLI, Hyderabad.\nA/C no- 056701504611 & IFSC Code- ICIC0000567', 20, doc.lastAutoTable.finalY + 40);
 
-    // Add totals
-    doc.autoTable({
-      startY: doc.autoTable.previous.finalY + 60,
-      head: [['', '']],
-      body: [
-        ['Sub Total', `${amount}.00`],
-        ['Total', `₹${amount}.00`],
-        ['Balance Due', `₹${amount}.00`]
-      ],
-      theme: 'plain',
-      styles: { halign: 'right' }
-    });
+        doc.autoTable({
+            startY: doc.lastAutoTable.finalY + 70,
+            body: [
+                ['Sub Total', `${amount}.00`],
+                ['Total', `₹${amount}.00`],
+                ['Balance Due', `₹${amount}.00`]
+            ],
+            theme: 'plain',
+            styles: {
+                fontSize: 12,
+                cellPadding: 2,
+                valign: 'middle',
+                halign: 'right'
+            },
+            columnStyles: {
+                0: { halign: 'right', fontStyle: 'bold' },
+                1: { halign: 'right' }
+            }
+        });
 
-    // Add authorized signature
-    doc.text('Authorized Signature', 180, doc.autoTable.previous.finalY + 20, { align: 'right' });
+        // Signature
+        doc.text('Authorized Signature', 160, doc.lastAutoTable.finalY + 30, { align: 'right' });
 
-    // Save the PDF
-    doc.save('invoice.pdf');
-  } catch (error) {
-    console.error('Error generating invoice:', error);
-  }
+        // Borders
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        doc.setLineWidth(1);
+        doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'S'); // Outer border
+        doc.rect(14, 14, pageWidth - 28, pageHeight - 28, 'S'); // Inner border
+
+        // Generate and download the PDF
+        doc.save('invoice.pdf');
+    } catch (error) {
+        console.error('Error generating invoice:', error);
+    }
 };

@@ -254,7 +254,7 @@ function TaskManager() {
       {task.file && (
         <p className="text-blue-600 mb-2">
           <span className="font-semibold">File:</span> 
-          <a href={`http://localhost:5007/${task.file.path}`} target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800">
+          <a href={`https://parasad-uncle-project.onrender.com/${task.file.path}`} target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800">
             Download file
           </a>
         </p>
