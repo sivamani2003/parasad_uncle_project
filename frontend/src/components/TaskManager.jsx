@@ -277,7 +277,7 @@ function TaskManager() {
             </button>
           ) : (
             <div>
-              <button className="bg-black text-white font-semibold p-2 mt-2 rounded cursor-not-allowed shadow" disabled>
+              <button className="bg-blue-500 text-white font-semibold p-2 mt-2 rounded cursor-not-allowed shadow" disabled>
                 Paid
               </button>
               <button onClick={() => handleGenerateInvoice(task._id)} className="bg-green-500 hover:bg-green-600 text-white font-semibold p-2 rounded shadow mt-2 ml-4">
@@ -288,19 +288,28 @@ function TaskManager() {
         </>
       )}
 
-      {!task.complete && isAdmin && (
+      {!task.complete && (
         <>
-          <button onClick={() => handleUpdateTask(task._id, true)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded shadow mt-2">
+          {/* "Mark as Complete" button for all users */}
+          <button 
+            onClick={() => handleUpdateTask(task._id, true)} 
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded shadow mt-2"
+          >
             Mark as Complete
           </button>
-          <button
-            onClick={() => handleReassignTask(task._id, prompt('Enter new executor username'))}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold p-2 rounded shadow mt-2 ml-4"
-          >
-            Reassign Task
-          </button>
-        </>
-      )}
+          
+          {/* "Reassign Task" button only for admins */}
+          {isAdmin && (
+            <button
+              onClick={() => handleReassignTask(task._id, prompt('Enter new executor username'))}
+              className="bg-red-500 hover:bg-red-600 text-white font-semibold p-2 rounded shadow mt-2 ml-4"
+            >
+              Reassign Task
+            </button>
+          )}
+  </>
+)}
+
     </div>
   ))}
       </div>
