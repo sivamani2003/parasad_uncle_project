@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { generateInvoicePDF } from './invoiceUtils';
-
+import { IoSearch } from "react-icons/io5";
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState('');
@@ -233,15 +233,20 @@ function TaskManager() {
           <button className={`p-2 ${activeTab === 'all' ? 'bg-gray-300' : ''}`} onClick={() => setActiveTab('all')}>All Tasks</button>
         )}
       </div>
-      <div className="mb-4">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search tasks..."
-          className="border p-2 w-full"
-        />
+      <div className="mb-4 flex justify-end">
+        <div className="relative w-1/3">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search tasks..."
+            className="border p-2 w-full rounded-lg pl-10"
+          />
+          <IoSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
       </div>
+
+
 
       <div>
   {filteredTasks(activeTab).map((task) => (
