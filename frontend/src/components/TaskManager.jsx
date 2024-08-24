@@ -307,10 +307,10 @@ function TaskManager() {
               Reassign Task
             </button>
           )}
-  </>
-)}
+          </>
+        )}
 
-    </div>
+      </div>
   ))}
       </div>
 
